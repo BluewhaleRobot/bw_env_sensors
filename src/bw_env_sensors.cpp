@@ -139,7 +139,7 @@ void StatusPublisher::UpdateStatus(const char *data, unsigned int len)
         sensor_status.pm2_5 = sensor_status.pm2_5_org;         //ug/m^3
         sensor_status.pm10 = sensor_status.pm10_org;          //ug/m^3
         sensor_status.illuminance = sensor_status.illuminance_org;   //lx
-        sensor_status.noise_org = sensor_status.noise/10;         //db
+        sensor_status.noise = sensor_status.noise_org/10;         //db
       }
       mbUpdated_ = true;
     }
