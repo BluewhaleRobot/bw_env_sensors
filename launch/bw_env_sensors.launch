@@ -1,0 +1,6 @@
+<launch>
+  <node pkg="bw_env_sensors" type="bw_env_sensors_node" name="bw_env_sensors_serial_driver">
+    <param name="port" value="/dev/bwEnvSensor"/>
+    <param name="baud" value="9600"/>
+  </node>
+</launch>
