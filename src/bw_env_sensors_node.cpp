@@ -28,7 +28,7 @@ int main(int argc, char **argv)
         serial.setCallback(boost::bind(&bw_env_sensors::StatusPublisher::UpdateStatus,&bwEnvSensors_server,_1,_2));
 
         const char data_query1[8] = {(char)0x01,(char)0x03,(char)0x00,(char)0x01,(char)0x00,(char)0x0b,(char)0x55,(char)0xcd};//获取前11个传感器数据
-
+        const char data_query2[8] = {(char)0x02,(char)0x03,(char)0x00,(char)0x06,(char)0x00,(char)0x01,(char)0x64,(char)0x38};//获取lel传感器数据
         ros::Rate r(1);//发布周期为1hz
         while (ros::ok())
         {
@@ -38,7 +38,11 @@ int main(int argc, char **argv)
                 cerr<<"Error: serial port closed unexpectedly"<<endl;
                 break;
             }
+            bwEnvSensors_server.SetSensorType(1);
             serial.write(data_query1,8);
+            usleep(200000);//延时200MS，等待数据上传
+            bwEnvSensors_server.SetSensorType(2);
+            serial.write(data_query2,8);
             r.sleep();
         }
         quit:

@@ -7,6 +7,7 @@
 #include <boost/thread.hpp>
 #include <boost/assign/list_of.hpp>
 #include "bw_env_sensors/EnvSensors.h"
+#include "std_msgs/Int32.h"
 
 #define PI 3.14159265
 
@@ -19,7 +20,7 @@ typedef struct {
   int pm1_0_org;
   int pm2_5_org;
   int pm10_org;
-  int illuminance_org;
+  int lel_org;
   int noise_org;
 
   float temperature;   //Centigrade
@@ -28,7 +29,7 @@ typedef struct {
   float pm1_0;         //ug/m^3
   float pm2_5;         //ug/m^3
   float pm10;          //ug/m^3
-  float illuminance;   //lx
+  float lel;           //ppm
   float noise;         //db
 }SENSOR_STATUS;
 
@@ -38,15 +39,19 @@ public:
     StatusPublisher(CallbackAsyncSerial* cmd_serial);
     void Refresh();
     void UpdateStatus(const char *data, unsigned int len);
+    void SetSensorType(int sensor_type);
     SENSOR_STATUS sensor_status;
 
 private:
     bw_env_sensors::EnvSensors  mEnvData_;
     ros::NodeHandle mNH;
     ros::Publisher mEnvStatusPub;
+    ros::Publisher mEnvFlagPub;
     bool mbUpdated_;
     boost::mutex mMutex;
-
+    bool smoke_ready_;
+    bool lel_ready_;
+    int sensor_type_;
     CallbackAsyncSerial* cmd_serial_;
 };
 

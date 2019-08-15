@@ -5,6 +5,5 @@ float32 smoke         #ppm
 float32 pm1_0         #ug/m^3
 float32 pm2_5         #ug/m^3
 float32 pm10          #ug/m^3
-float32 illuminance   #lx
+float32 lel           #ppm
 float32 noise         #db
-
