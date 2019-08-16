@@ -25,7 +25,7 @@ GALILEO_PUB = None
 TASK_LIST = list()
 
 SMOKE_WARNING = 300
-LEL_WARNING = 100
+LEL_WARNING = 20
 
 ENV_SENSOR_DATA = EnvSensors()
 
@@ -92,6 +92,9 @@ if __name__ == "__main__":
 
     #开始从json文件中加载地图切换任务
     time.sleep(1)
+
+    SMOKE_WARNING = rospy.get_param("~SMOKE_WARNING", 300)
+    LEL_WARNING = rospy.get_param("~LEL_WARNING", 20)
 
     while not rospy.is_shutdown():
         #任务最多每分钟执行一次
