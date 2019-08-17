@@ -1,6 +1,10 @@
 <launch>
-  <node pkg="bw_env_sensors" type="bw_env_sensors_node" name="bw_env_sensors_serial_driver">
+  <node pkg="bw_env_sensors" type="bw_env_sensors_node" name="bw_env_sensors_serial_driver" respawn="true" respawn_delay="10">
     <param name="port" value="/dev/bwEnvSensor"/>
     <param name="baud" value="9600"/>
+  </node>
+  <node pkg="bw_env_sensors" type="monitor.py" name="env_sensor_monitor" respawn="true" respawn_delay="10">
+    <param name="SMOKE_WARNING" value="300"/>
+    <param name="LEL_WARNING" value="20"/>
   </node>
 </launch>
