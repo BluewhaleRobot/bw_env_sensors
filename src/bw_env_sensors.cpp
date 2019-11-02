@@ -38,6 +38,10 @@ StatusPublisher::StatusPublisher(CallbackAsyncSerial* cmd_serial)
 
 void StatusPublisher::Refresh()
 {
+  static int update_num =0;
+  if(update_num >6000 ) update_num = 6000;
+  update_num ++;
+
   std_msgs::Int32 flag;
   flag.data = 0;
   if(mbUpdated_ )
@@ -47,7 +51,14 @@ void StatusPublisher::Refresh()
     {
       mEnvData_.temperature = sensor_status.temperature;
       mEnvData_.rh = sensor_status.rh;
-      mEnvData_.smoke = sensor_status.smoke;
+      if(update_num >60 )
+      {
+        mEnvData_.smoke = sensor_status.smoke;
+      }
+      else
+      {
+        mEnvData_.smoke = 0;
+      }
       mEnvData_.pm1_0 = sensor_status.pm1_0;
       mEnvData_.pm2_5 = sensor_status.pm2_5;
       mEnvData_.pm10  = sensor_status.pm10;
