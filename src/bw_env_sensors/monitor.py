@@ -75,6 +75,12 @@ def dealEnvData():
         galileo_cmds.length = len(galileo_cmds.data)
         galileo_cmds.header.stamp = rospy.Time.now()
         GALILEO_PUB.publish(galileo_cmds)
+        #停止导航
+        galileo_cmds = GalileoNativeCmds()
+        galileo_cmds.data = 'm' + chr(0x04)
+        galileo_cmds.length = len(galileo_cmds.data)
+        galileo_cmds.header.stamp = rospy.Time.now()
+        GALILEO_PUB.publish(galileo_cmds)
 
     ENV_DATA_LOCK.release()
 
@@ -90,7 +96,6 @@ if __name__ == "__main__":
 
     envSensor_sub = rospy.Subscriber("/bw_env_sensors/EnvSensorData", EnvSensors, update_envSensor)
 
-    #开始从json文件中加载地图切换任务
     time.sleep(1)
 
     SMOKE_WARNING = rospy.get_param("~SMOKE_WARNING", 300)
