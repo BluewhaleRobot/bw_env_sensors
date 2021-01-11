@@ -10,6 +10,8 @@ import subprocess
 import os
 import threading
 from bw_env_sensors.msg import EnvSensors
+import requests
+import json
 
 NAV_STATUS = 0
 LOOP_STATUS = 0
@@ -81,7 +83,11 @@ def dealEnvData():
         galileo_cmds.length = len(galileo_cmds.data)
         galileo_cmds.header.stamp = rospy.Time.now()
         GALILEO_PUB.publish(galileo_cmds)
-
+        if nav_status == 1:
+            try:
+                requests.get("http://127.0.0.1:3546/api/v1/navigation/stop")
+            except Exception as e:
+                rospy.logwarn(e)
     ENV_DATA_LOCK.release()
 
 if __name__ == "__main__":

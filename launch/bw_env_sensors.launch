@@ -1,6 +1,6 @@
 <launch>
   <node pkg="bw_env_sensors" type="bw_env_sensors_node" name="bw_env_sensors_serial_driver" respawn="true" respawn_delay="10">
-    <param name="port" value="/dev/bwEnvSensor"/>
+    <param name="port" value="/dev/bwEnvSensors"/>
     <param name="baud" value="9600"/>
   </node>
   <node pkg="bw_env_sensors" type="monitor.py" name="env_sensor_monitor" respawn="true" respawn_delay="10">
