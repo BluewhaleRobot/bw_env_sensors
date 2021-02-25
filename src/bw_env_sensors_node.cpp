@@ -40,7 +40,7 @@ int main(int argc, char **argv)
             }
             bwEnvSensors_server.SetSensorType(1);
             serial.write(data_query1,8);
-            usleep(200000);//延时200MS，等待数据上传
+            usleep(500000);//延时500MS，等待数据上传
             bwEnvSensors_server.SetSensorType(2);
             serial.write(data_query2,8);
             r.sleep();

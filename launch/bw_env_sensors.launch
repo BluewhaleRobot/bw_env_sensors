@@ -4,7 +4,7 @@
     <param name="baud" value="9600"/>
   </node>
   <node pkg="bw_env_sensors" type="monitor.py" name="env_sensor_monitor" respawn="true" respawn_delay="10">
-    <param name="SMOKE_WARNING" value="300"/>
-    <param name="LEL_WARNING" value="8"/>
+    <param name="SMOKE_WARNING" value="900"/>
+    <param name="LEL_WARNING" value="10"/>
   </node>
 </launch>

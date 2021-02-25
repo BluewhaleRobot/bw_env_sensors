@@ -1,6 +1,7 @@
 #include "bw_env_sensors/AsyncSerial.h"
 #include "bw_env_sensors/bw_env_sensors.h"
 #include "bw_env_sensors/crc16.h"
+#include <algorithm>
 namespace bw_env_sensors
 {
 StatusPublisher::StatusPublisher(CallbackAsyncSerial* cmd_serial)
@@ -51,7 +52,7 @@ void StatusPublisher::Refresh()
     {
       mEnvData_.temperature = sensor_status.temperature;
       mEnvData_.rh = sensor_status.rh;
-      if(update_num >60 )
+      if(update_num >60 || sensor_status.smoke<500)
       {
         mEnvData_.smoke = sensor_status.smoke;
       }
@@ -173,9 +174,16 @@ void StatusPublisher::UpdateStatus(const char *data, unsigned int len)
           sensor_status.temperature = (sensor_status.temperature_org-2000)/100.0f;   //Centigrade
           sensor_status.rh = sensor_status.rh_org/100.0f;            //relative humidity %RH
           sensor_status.smoke = sensor_status.smoke_org;         //ppm
+
           sensor_status.pm1_0 = sensor_status.pm1_0_org;         //ug/m^3
           sensor_status.pm2_5 = sensor_status.pm2_5_org;         //ug/m^3
           sensor_status.pm10 = sensor_status.pm10_org;          //ug/m^3
+
+          float pm_smoke = (sensor_status.pm1_0 + sensor_status.pm2_5 + sensor_status.pm10)/3.0;
+          if(pm_smoke>5)
+          {
+            sensor_status.smoke = std::max(sensor_status.smoke,pm_smoke);  
+          }
           sensor_status.noise = sensor_status.noise_org/10;         //db
         }
         smoke_ready_ = true;
